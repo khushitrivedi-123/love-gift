@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background-color: #ffc0cb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* Floating hearts */
+    .heart {
+        position: absolute;
+        color: #ff4d6d;
+        font-size: 20px;
+        animation: float 6s linear infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(100vh); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    /* FIRST PAGE (UNCHANGED) */
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        width: 320px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    h1 { color: #ff4d6d; }
+
+    img { width: 180px; margin-bottom: 15px; }
+
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+    }
+
+    #yesBtn { background-color: #ff4d6d; color: white; }
+    #noBtn { background-color: #ccc; }
+
+    /* COMMON PAGES */
+    .page {
+        min-height: 100vh;
+        width: 100%;
+        text-align: center;
+        padding: 30px;
+        background-color: #ffc0cb;
+    }
+
+    .main-btn {
+        background: #ff4d6d;
+        color: white;
+        font-size: 18px;
+    }
+
+    .birthday-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .birthday-card {
+        background: white;
+        max-width: 420px;
+        width: 90%;
+        max-height: 85vh;
+        padding: 25px;
+        border-radius: 25px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        overflow-y: auto;
+    }
+
+    .birthday-card img {
+        width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        border-radius: 20px;
+        margin: 15px 0;
+    }
+
+    /* GIFTS */
+    .gifts {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .gift-card {
+        width: 200px;
+        height: 240px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    .luxury-letter-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+            radial-gradient(circle at center, rgba(255,0,60,0.15), transparent 60%),
+            linear-gradient(to bottom, #050505, #000);
+        padding: 20px;
+        overflow: hidden;
+    }
+
+    .luxury-card {
+        background: linear-gradient(145deg, #111, #1c1c1c);
+        color: white;
+        max-width: 420px;
+        width: 100%;
+        border-radius: 25px;
+        padding: 25px;
+        box-shadow:
+            0 0 25px rgba(255, 0, 60, 0.4),
+            0 0 60px rgba(255, 0, 60, 0.2);
+        text-align: center;
+        position: relative;
+    }
+
+    .luxury-card h1 {
+        font-family: 'Impact', 'Arial Black', sans-serif;
+        letter-spacing: 1px;
+    }
+
+
+    .luxury-card .edition {
+        font-size: 12px;
+        letter-spacing: 1px;
+        color: #aaa;
+        margin-bottom: 15px;
+    }
+
+    .luxury-card img {
+        width: 100%;
+        max-height: 220px;
+        object-fit: cover;
+        border-radius: 18px;
+        margin: 15px 0;
+    }
+
+    .specs {
+        text-align: left;
+        font-size: 14px;
+        margin: 15px 0;
+        line-height: 1.6;
+    }
+
+    .specs span {
+        color: #ff4d6d;
+    }
+
+    .love-letter-text {
+        font-size: 14px;
+        line-height: 1.7;
+        margin: 15px 0;
+        color: #eee;
+    }
+
+    @keyframes carReveal {
+        0% {
+            transform: translateY(60px) scale(0.9);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+    }
+
+    .luxury-card {
+        animation: carReveal 1.2s ease-out forwards;
+    }
+
+
+    .back-btn {
+        margin-top: 15px;
+        background: transparent;
+        border: 2px solid #ff4d6d;
+        color: #ff4d6d;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .back-btn:hover {
+        background: #ff4d6d;
+        color: white;
+    }
+
+    .photos-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .polaroid-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 180px);
+        gap: 30px;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .polaroid {
+        background: white;
+        padding: 10px 10px 25px;
+        border-radius: 6px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .polaroid img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .polaroid p {
+        margin-top: 10px;
+        font-size: 14px;
+        font-family: 'Comic Sans MS', 'Bradley Hand', cursive;
+        color: #555;
+    }
+
+    /* Cute rotation */
+    .polaroid:nth-child(1) { transform: rotate(-4deg); }
+    .polaroid:nth-child(2) { transform: rotate(3deg); }
+    .polaroid:nth-child(3) { transform: rotate(-2deg); }
+    .polaroid:nth-child(4) { transform: rotate(2deg); }
+    .polaroid:nth-child(5) { transform: rotate(-3deg); }
+    .polaroid:nth-child(6) { transform: rotate(4deg); }
+
+    .polaroid:hover {
+        transform: scale(1.05) rotate(0deg);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        .polaroid-grid {
+            grid-template-columns: repeat(2, 180px);
+        }
+    }
+
+   .miss-you-page {
+        min-height: 100vh;
+        background: linear-gradient(to bottom, #0c0010, #000);
+        color: #fff;
+        text-align: center;
+        padding: 35px 25px;
+    }
+
+    .miss-title {
+        color: #ff4d6d;
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+
+    .heart-beat {
+        font-size: 55px;
+        animation: heartbeat 1.5s infinite;
+        margin: 20px 0;
+    }
+
+    @keyframes heartbeat {
+        0% { transform: scale(1); }
+        30% { transform: scale(1.15); }
+        60% { transform: scale(1); }
+    }
+
+    .miss-text p {
+        font-size: 16px;
+        line-height: 1.8;
+        margin: 10px 0;
+        opacity: 0.9;
+    }
+
+    .soft-note {
+        margin-top: 20px;
+        font-size: 14px;
+        opacity: 0.7;
+    }
+
+    .video-wrapper {
+        max-width: 360px;
+        margin: 25px auto;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .proposal-btn {
+        margin-top: 25px;
+        padding: 12px 26px;
+        font-size: 17px;
+        background: #ff4d6d;
+        border: none;
+        border-radius: 30px;
+        color: white;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <img id="teddy" src="https://media.tenor.com/-aW73OVUtyYAAAAj/tkthao219-bubududu.gif">
+    <h1 id="question">Do you love me? 🥺</h1>
+    <button id="yesBtn" onclick="yesClicked()">YES ❤️</button>
+    <button id="noBtn" onclick="noClicked()">NO 💔</button>
+</div>
+
+<script>
+
+let noCount = 0;
+
+const teddyGifs = [
+    "https://media.tenor.com/-aW73OVUtyYAAAAj/tkthao219-bubududu.gif",
+    "https://media.tenor.com/v0JnKBarh6kAAAAi/dudu-bubu-dudu.gif",
+    "https://media.tenor.com/KGnViErYaD8AAAAi/abra%C3%A7ourso.gif",
+    "https://media.tenor.com/4Hjm_J72ZEcAAAAi/milk-mocha-bear-cheek-pull.gif",
+    "https://media.tenor.com/RwAaE57CfHYAAAAi/khaupb.gif",
+];
+
+function noClicked() {
+    noCount++;
+    const question = document.getElementById("question");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const teddy = document.getElementById("teddy");
+
+    if (noCount === 1) question.innerText = "Think again dudu 😏";
+    else if (noCount === 2) question.innerText = "Bubu please 🧸";
+    else if (noCount === 3) question.innerText = "Choose wisely Utsav😈";
+    else if (noCount === 4) question.innerText = "You don't have option 🌚";
+    else if (noCount === 5) {
+        question.innerText = "Only YES left 😌❤️";
+        noBtn.style.display = "none";
+        yesBtn.style.fontSize = "30px";
+        return;
+    }
+
+    teddy.src = teddyGifs[noCount % teddyGifs.length];
+    let size = parseInt(window.getComputedStyle(yesBtn).fontSize);
+    yesBtn.style.fontSize = (size + 4) + "px";
+}
+
+
+function yesClicked() {
+    document.body.innerHTML = `
+    <div class="page birthday-wrapper">
+        <div class="birthday-card">
+            <h1> Happy Happy Happiest Birthday maraa bubuuuu 🧿</h1>
+            <h2 style="color:#ff4d6d;">My Everything, I Loveeee youu soo much ❤️</h2>
+
+            <img src="images/bday.jpg" alt="Birthday">
+
+            <p style="font-size:16px; line-height:1.6; text-align:center;">
+                You are my sunshine on every cloudy day ☀️<br>
+                Distance means nothing when my heart is yours 💕
+            </p>
+
+            <button class="main-btn" onclick="showGifts()">
+                See yours gifts 🎁
+            </button>
+        </div>
+    </div>`;
+}
+
+
+function showGifts() {
+    document.body.innerHTML = `
+    <div class="page">
+        <h1>Your Gifts 🎁</h1>
+        <div class="gifts">
+            <div class="gift-card" onclick="openLetter()">💌 Gift 1</div>
+            <div class="gift-card" onclick="openPhotos()">📸 Gift 2</div>
+            <div class="gift-card" onclick="openQuiz()">🎵 Gift 3</div>
+        </div>
+    </div>`;
+}
+
+function openLetter() {
+    document.body.innerHTML = `
+    <div class="luxury-letter-wrapper">
+        <div class="luxury-card">
+
+            <h1>🏎️ Limited Edition</h1>
+            <div class="edition">FOREVER COLLECTION 💖</div>
+
+            <img src="images/BMW.jpeg" alt="Luxury Car">
+
+            <div class="specs">
+                <div><span>Model:</span> My Forever Ride</div>
+                <div><span>Owner:</span> You ❤️</div>
+                <div><span>Top Speed:</span> Infinity Love</div>
+                <div><span>Fuel Type:</span> Hugs & Kisses</div>
+                <div><span>Condition:</span> Brand New Heart 💘</div>
+            </div>
+
+            <div class="love-letter-text">
+                Just like your favorite cars, you are rare, powerful,
+                and impossible to replace.  
+                I may not be beside you every mile, but my heart is always
+                riding with you.  
+                You are my dream car — today, tomorrow, always. ❤️
+            </div>
+
+            <button class="back-btn" onclick="goBackToGifts()">
+                ⬅ Back to Gifts
+            </button>
+
+        </div>
+    </div>
+    `;
+}
+
+function openPhotos() {
+    document.body.innerHTML = `
+    <div class="page photos-page">
+        <h1>Our Sweet Memories 📸💖</h1>
+
+        <div class="polaroid-grid">
+            <div class="polaroid">
+                <img src="images/uk6.jpeg" alt="">
+                <p>That smile ❤️</p>
+            </div>
+            <div class="polaroid">
+                <img src="images/uk4.jpeg" alt="">
+                <p>Forever vibes ✨</p>
+            </div>
+            <div class="polaroid">
+                <img src="images/uk5.jpeg" alt="">
+                <p>My safe place 🧿</p>
+            </div>
+
+            <div class="polaroid">
+                <img src="images/uk3.jpeg" alt="">
+                <p>Always you 💕</p>
+            </div>
+            <div class="polaroid">
+                <img src="images/uk1.jpeg" alt="">
+                <p>Us 🥹</p>
+            </div>
+            <div class="polaroid">
+                <img src="images/uk2.jpeg" alt="">
+                <p>Love you 💘</p>
+            </div>
+        </div>
+
+        <button class="back-btn" onclick="goBackToGifts()">⬅ Back to Gifts</button>
+    </div>
+    `;
+}
+
+function openQuiz() {
+    document.body.innerHTML = `
+    <div class="page miss-you-page">
+
+        <h1 class="miss-title">For the nights you miss me 🌙</h1>
+
+        <div class="heart-beat">❤️</div>
+
+        <div class="miss-text">
+            <p>Some nights are quiet.</p>
+            <p>But my heart is loud with your name.</p>
+            <p>I wish you were here…</p>
+            <p>Not on a screen.</p>
+            <p>But next to me.</p>
+        </div>
+
+        <p class="soft-note">
+            Play this when you miss me.
+        </p>
+
+        <div class="video-wrapper">
+            <iframe
+                width="100%"
+                height="200"
+                src="https://www.youtube.com/embed/2Vv-BfVoq4g"
+                title="Perfect - Ed Sheeran"
+                allow="encrypted-media"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <button class="proposal-btn" onclick="finalLove()">
+            💌 Will you stay with me, always?
+        </button>
+
+        <button class="back-btn" onclick="goBackToGifts()">⬅ Back</button>
+
+    </div>
+    `;
+}
+
+
+function finalLove() {
+    document.body.innerHTML = `
+    <div class="page miss-you-page">
+        <h1 class="miss-title">Thank you ❤️</h1>
+
+        <p class="miss-text">
+            No matter how far we are,<br>
+            my heart reaches you first.
+        </p>
+
+        <p class="miss-text">
+            When you miss me,<br>
+            remember — I miss you more.
+        </p>
+    </div>
+    `;
+}
+
+
+
+
+/* hearts */
+function createHeart() {
+    if (document.querySelector('.luxury-letter-wrapper')) return;
+
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}
+
+function goBackToGifts() {
+    showGifts();
+}
+
+</script>
+
+
+</body>
+</html>
+
